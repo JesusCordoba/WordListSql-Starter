@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class WordListOpenHelper extends SQLiteOpenHelper {
 
     // It's a good idea to always define a log tag like this.
@@ -164,6 +166,26 @@ public class WordListOpenHelper extends SQLiteOpenHelper {
         }
 
         return mNumberOfRowsUpdated;
+    }
+
+    public ArrayList<WordItem> search(String word) {
+        ArrayList<WordItem> words_list = new ArrayList<WordItem>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + WORD_LIST_TABLE + " where " + KEY_WORD + " LIKE \'%" + word + "%\'", null);
+        if (cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    WordItem item = new WordItem();
+                    @SuppressLint("Range") String texto = cursor.getString(cursor.getColumnIndex(KEY_WORD));
+                    item.setWord(texto);
+
+                    words_list.add(item);
+                } while (cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        db.close();
+        return words_list;
     }
 
 

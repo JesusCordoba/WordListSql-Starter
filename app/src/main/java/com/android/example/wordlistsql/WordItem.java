@@ -4,6 +4,7 @@ public class WordItem {
 
     private int mId;
     private String mWord;
+    public static final String EXTRA_REPLY = "com.example.android.wordlistsql.REPLY";
 
     public WordItem(){
 

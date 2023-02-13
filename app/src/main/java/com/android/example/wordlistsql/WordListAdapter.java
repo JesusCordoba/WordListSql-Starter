@@ -99,8 +99,11 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
                 current.getId(), current.getWord()) {
             @Override
             public void onClick(View v) {
-                mDB.delete(current.getId()); // No actualiza cuando borra mirar
-
+                // Remove from the database.
+                int deleted = mDB.delete(current.getId());
+                if (deleted >= 0) {
+                    notifyItemRemoved(holder.getAdapterPosition());
+                }
             }
         });
     }
@@ -108,7 +111,6 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     @Override
     public int getItemCount() {
         // Placeholder so we can see some mock data.
-//        return 10;
         return (int) mDB.count();
     }
 }
