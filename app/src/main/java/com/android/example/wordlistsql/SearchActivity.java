@@ -33,13 +33,12 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showResult(view);
-//                String word = mEditWordView.getText().toString();
-//                boolean match= Pattern.matches("[\\s]", word);
-//                if (match){
-//                    showResult(view);
-//                }else{
-//                    mTextView.setText("No se admiten espacios en blanco");
-//                }
+                String word = mEditWordView.getText().toString();
+                if (word.contains(" ") || word.isEmpty()){
+                    mTextView.setText("No se admiten espacios en blanco");
+                }else{
+                    showResult(view);
+                }
 
             }
         });
